@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-import vk
 from pymongo import MongoClient
 import os
 
