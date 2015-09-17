@@ -1,6 +1,8 @@
 #!/bin/bash
 
-for pfile in $OPENSHIFT_REPO_DIR/cron/*.py
+cd ${OPENSHIFT_REPO_DIR}
+for pfile in $(ls crons/*.py)
 do
-	python $pfile
+	echo $pfile
+	python ${OPENSHIFT_REPO_DIR}$pfile
 done
