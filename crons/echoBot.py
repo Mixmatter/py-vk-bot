@@ -104,8 +104,8 @@ def bot_help(m):
 	for c in bc:
 		tmp += c[2] + "\n"
 		tmp += "Использование: "
-		for h in c[0]:
-			tmp += "'" + h + "'"
+		for h in c[4]:
+			tmp += "'" + h + "' "
 		tmp += "\n---------\n"
 	tmp += "\n Бот при парсинге удаляет символы: . (точка), , (запятая) и  (пробел)"
 	tmp += "\n-- Oo Oo --"
@@ -133,7 +133,7 @@ def declareOneBotCommand(names, callback, helpTip):
 	global bc
 
 	names_trimmed = trimm(names)
-	bc.append([names_trimmed, callback, helpTip])
+	bc.append([names_trimmed, callback, helpTip, names])
 
 	return
 
