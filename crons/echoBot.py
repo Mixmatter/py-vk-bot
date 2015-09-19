@@ -93,13 +93,35 @@ def bot_setRasp(m):
 
 	return
 
+def bot_help(m):
+	tmp = "-- Оо Оо --"
+	tmp += "\n---------\n"
+
+	for c in bc:
+		tmp += c[2] + "\n"
+		tmp += "Использование: "
+		for h in c[0]:
+			tmp += "'" + h + "'"
+		tmp += "\n---------\n"
+	tmp += "\n Бот при парсинге удаляет символы: . (точка), , (запятая) и  (пробел)"
+	tmp += "\n-- Oo Oo --"
+
+	chat_id = m[3] - VK_CHAT_K
+	if (chat_id > 0):
+		bot.messages.send(chat_id = (m[3] - VK_CHAT_K), message = tmp)
+	else:
+		bot.messages.send(user_id = m[3], message = tmp)
+	return
+
 
 # Bot-Commands-Gen
 bc = []
 
 def declareBotCommands():
-	declareOneBotCommand(["Оо, кинь расписание", "Оо, расписание", "оо расп"], bot_getRasp)
-	declareOneBotCommand(["#Расписание", "Оо, вот расписание"], bot_setRasp)
+	declareOneBotCommand(["Оо, помощь", "Оо, справка", "Оо, выведи помощь"], bot_help, "Вывод этой помощи")
+	declareOneBotCommand(["Оо, кинь расписание", "Оо, расписание", "оо расп"], bot_getRasp, "Вывод расписания, запомненого ранее")
+	declareOneBotCommand(["#Расписание", "Оо, вот расписание"], bot_help, "Запоминание расписания для дальнейшего вывода")
+
 
 def declareOneBotCommand(names, callback):
 	names_trimmed = trimm(names)
