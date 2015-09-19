@@ -61,8 +61,8 @@ def connectToPollVK(vals):
 def bot_getRasp(m):
 	global mongo, bot
 
-	# Новое сообщение в группе
-	if (m[0] != 4 and (m[3] < VK_CHAT_K)):
+	# Новое сообщение
+	if (m[0] != 4):
 		return
 
 	message_id = mongo.find_one({"bot_rasp": m[3]})['message_id']
@@ -81,7 +81,7 @@ def bot_getRasp(m):
 def bot_setRasp(m):
 	global mongo
 
-	if (m[0] != 4 and (m[3] < VK_CHAT_K)):
+	if (m[0] != 4):
 		return
 
 	try:
