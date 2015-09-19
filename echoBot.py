@@ -65,9 +65,14 @@ def bot_getRasp(m):
 		return
 
 	message_id = mongo.find_one({"bot_rasp": m[3]})['message_id']
-	print(m[3])
-	mess = bot.messages.send(chat_id = (m[3] - VK_CHAT_K), forward_messages = message_id, message = "Вот")
-	return 1
+	
+	chat_id = m[3] - VK_CHAT_K
+	if (chat_id > 0):
+		bot.messages.send(chat_id = (m[3] - VK_CHAT_K), forward_messages = message_id, message = "Вот")
+	else:
+		bot.messages.send(user_id = m[3], forward_messages = message_id, message = "Вот")
+
+	return
 
 def bot_setRasp(m):
 	global mongo
@@ -76,14 +81,13 @@ def bot_setRasp(m):
 		return
 
 	try:
-		if (mongo.find_one({"bot_rasp": m[3]}) != None):
-			mongo.update_one({"bot_rasp": m[3]}, {"$set": {"message_id": m[1]}})
-		else:
-			mongo.insert_one({"bot_rasp": m[3], "message_id": m[1]})
+		mongo.find_one({"bot_rasp": m[3]}
+
+		mongo.update_one({"bot_rasp": m[3]}, {"$set": {"message_id": m[1]}})
 	except TypeError:
-		pass
-	
-	return 2
+		mongo.insert_one({"bot_rasp": m[3], "message_id": m[1]})
+
+	return
 
 
 # Bot-Commands-Gen
