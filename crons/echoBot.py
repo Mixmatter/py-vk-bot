@@ -123,7 +123,7 @@ bc = []
 def declareBotCommands():
 	declareOneBotCommand(["Оо, помощь", "Оо, справка", "Оо, выведи помощь"], bot_help, "Вывод этой помощи")
 	declareOneBotCommand(["Оо, кинь расписание", "Оо, расписание", "оо расп"], bot_getRasp, "Вывод расписания, запомненого ранее")
-	declareOneBotCommand(["#Расписание", "Оо, вот расписание"], bot_help, "Запоминание расписания для дальнейшего вывода")
+	declareOneBotCommand(["#Расписание", "Оо, вот расписание"], bot_setRasp, "Запоминание расписания для дальнейшего вывода")
 
 
 def declareOneBotCommand(names, callback, helpTip):
