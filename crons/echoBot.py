@@ -97,6 +97,9 @@ def bot_setRasp(m):
 	return
 
 def bot_help(m):
+	if (m[0] != 4):
+		return
+	
 	tmp = "-- Оо Оо --"
 	tmp += "\n---------\n"
 
