@@ -85,7 +85,7 @@ def bot_setRasp(m):
 		return
 
 	try:
-		mongo.find_one({"bot_rasp": m[3]}
+		mongo.find_one({"bot_rasp": m[3]})
 
 		mongo.update_one({"bot_rasp": m[3]}, {"$set": {"message_id": m[1]}})
 	except TypeError:
