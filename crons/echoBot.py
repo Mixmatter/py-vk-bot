@@ -126,9 +126,9 @@ def declareBotCommands():
 	declareOneBotCommand(["#Расписание", "Оо, вот расписание"], bot_help, "Запоминание расписания для дальнейшего вывода")
 
 
-def declareOneBotCommand(names, callback):
+def declareOneBotCommand(names, callback, helpTip):
 	names_trimmed = trimm(names)
-	bc.append([names_trimmed, callback])
+	bc.append([names_trimmed, callback, helpTip])
 
 def trimm(tr):
 	if (type(tr) == str):
