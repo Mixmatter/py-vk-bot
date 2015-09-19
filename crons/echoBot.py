@@ -27,15 +27,15 @@ def main():
 			if (m[0] != 4):
 				break
 
-			try:
-				message_trimmed = trimm(m[6])
-				for command in bc:
-					for commandName in command[0]:
-						if (commandName in message_trimmed):
-							print(command[1](m))
-							#raise IndexError
-			except IndexError:
-				pass
+#			try:
+			message_trimmed = trimm(m[6])
+			for command in bc:
+				for commandName in command[0]:
+					if (commandName in message_trimmed):
+						print(command[1](m))
+#							raise IndexError
+#			except IndexError:
+#				pass
 
 		r = connectToPollVK(pollServerInfo)
 
