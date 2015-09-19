@@ -28,7 +28,7 @@ def main():
 			if (m[0] != 4):
 				continue
 
-			if (m[7] == VK_BOT_ID or m[3] == VK_BOT_ID):
+			if (m[7]['from'] == VK_BOT_ID or m[3] == VK_BOT_ID):
 				continue
 
 			try:
