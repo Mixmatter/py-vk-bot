@@ -31,15 +31,15 @@ def main():
 			if (m[7] == VK_BOT_ID or m[3] == VK_BOT_ID):
 				continue
 
-#			try:
-			message_trimmed = trimm(m[6])
-			for command in bc:
-				for commandName in command[0]:
-					if (commandName in message_trimmed):
-						print(command[1](m))
-#							raise IndexError
-#			except IndexError:
-#				pass
+			try:
+				message_trimmed = trimm(m[6])
+				for command in bc:
+					for commandName in command[0]:
+						if (commandName in message_trimmed):
+							print(command[1](m))
+							raise IndexError
+			except IndexError:
+				pass
 
 		r = connectToPollVK(pollServerInfo)
 
