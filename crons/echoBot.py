@@ -33,7 +33,7 @@ def main():
 					for commandName in command[0]:
 						if (commandName in message_trimmed):
 							print(command[1](m))
-							raise IndexError
+							#raise IndexError
 			except IndexError:
 				pass
 
@@ -99,7 +99,7 @@ def bot_setRasp(m):
 def bot_help(m):
 	if (m[0] != 4):
 		return
-	
+
 	tmp = "-- Оо Оо --"
 	tmp += "\n---------\n"
 
