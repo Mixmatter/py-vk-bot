@@ -65,7 +65,10 @@ def bot_getRasp(m):
 	if (m[0] != 4):
 		return
 
-	message_id = mongo.find_one({"bot_rasp": m[3]})['message_id']
+	try:
+		message_id = mongo.find_one({"bot_rasp": m[3]})['message_id']
+	except TypeError:
+		return
 
 	hint_messages = ["Вот", "Лови", "Прошу", "Пожалуйста", "Вот-вот"]
 	hint_message = hint_messages[random.randint(0, len(hint_messages)-1)]
