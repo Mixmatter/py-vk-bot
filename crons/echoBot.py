@@ -37,11 +37,13 @@ def main():
 					for commandName in command[0]:
 						if (commandName in message_trimmed):
 							print(command[1](m))
+							break
 							raise IndexError
 			except IndexError:
 				pass
 
 		r = connectToPollVK(pollServerInfo)
+	return
 
 # MongoDB
 def connectToMongoDB(dbName, collectionName):
