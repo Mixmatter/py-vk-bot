@@ -4,11 +4,12 @@ import os
 import requests
 import random
 
-global mongo, bot
+global mongo, bot, bc
 VK_CHAT_K = 2000000000
+VK_BOT_ID = 280091202
 
 def main():
-	global mongo, bot
+	global mongo, bot, bc
 
 	mongo = connectToMongoDB("python", "bot_oo")
 	bot = connectToVK()
@@ -25,7 +26,10 @@ def main():
 
 		for m in r.json()['updates']:
 			if (m[0] != 4):
-				break
+				continue
+
+			if (m[7] == VK_BOT_ID or m[3] == VK_BOT_ID):
+				continue
 
 #			try:
 			message_trimmed = trimm(m[6])
@@ -75,7 +79,7 @@ def bot_getRasp(m):
 	
 	chat_id = m[3] - VK_CHAT_K
 	if (chat_id > 0):
-		bot.messages.send(chat_id = (m[3] - VK_CHAT_K), forward_messages = message_id, message = hint_message)
+		bot.messages.send(chat_id = chat_id, forward_messages = message_id, message = hint_message)
 	else:
 		bot.messages.send(user_id = m[3], forward_messages = message_id, message = hint_message)
 
@@ -97,8 +101,7 @@ def bot_setRasp(m):
 	return
 
 def bot_help(m):
-	if (m[0] != 4):
-		return
+	global bot, bc
 
 	tmp = "-- Оо Оо --"
 	tmp += "\n---------\n"
@@ -114,10 +117,10 @@ def bot_help(m):
 
 	chat_id = m[3] - VK_CHAT_K
 	if (chat_id > 0):
-		bot.messages.send(chat_id = (m[3] - VK_CHAT_K), message = tmp)
+		bot.messages.send(chat_id = chat_id, message = tmp)
 	else:
 		bot.messages.send(user_id = m[3], message = tmp)
-	return
+	return m
 
 
 # Bot-Commands-Gen
@@ -128,10 +131,16 @@ def declareBotCommands():
 	declareOneBotCommand(["Оо, кинь расписание", "Оо, расписание", "оо расп"], bot_getRasp, "Вывод расписания, запомненого ранее")
 	declareOneBotCommand(["#Расписание", "Оо, вот расписание"], bot_setRasp, "Запоминание расписания для дальнейшего вывода")
 
+	return
+
 
 def declareOneBotCommand(names, callback, helpTip):
+	global bc
+
 	names_trimmed = trimm(names)
 	bc.append([names_trimmed, callback, helpTip])
+
+	return
 
 def trimm(tr):
 	if (type(tr) == str):
