@@ -68,7 +68,7 @@ def bot_getRasp(m):
 	message_id = mongo.find_one({"bot_rasp": m[3]})['message_id']
 
 	hint_messages = ["Вот", "Лови", "Прошу", "Пожалуйста", "Вот-вот"]
-	hint_message = hint_messages[random.randint(0, len(hint_messages)-1]
+	hint_message = hint_messages[random.randint(0, len(hint_messages)-1)]
 	
 	chat_id = m[3] - VK_CHAT_K
 	if (chat_id > 0):
