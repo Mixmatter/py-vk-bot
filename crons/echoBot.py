@@ -29,10 +29,10 @@ def main():
 				continue
 
 			try:
-				if (m[7]['from'] == VK_BOT_ID or m[7]['from'] == str(VK_BOT_ID)):
+				if (m[7]['from'] == str(VK_BOT_ID)):
 					continue
 			except KeyError:
-				pass
+				print("from list in message not found")
 
 			if (m[3] == VK_BOT_ID):
 				continue
@@ -45,7 +45,7 @@ def main():
 							print(command[1](m))
 							raise ZeroDivisionError
 			except ZeroDivisionError:
-				pass
+				print("Exited in command-run")
 
 		r = connectToPollVK(pollServerInfo)
 	return
@@ -72,14 +72,10 @@ def connectToPollVK(vals):
 def bot_getRasp(m):
 	global mongo, bot
 
-	# Новое сообщение
-	if (m[0] != 4):
-		return
-
 	try:
 		message_id = mongo.find_one({"bot_rasp": m[3]})['message_id']
 	except TypeError:
-		return
+		return "No value in MongoDB"
 
 	hint_messages = ["Вот", "Лови", "Прошу", "Пожалуйста", "Вот-вот"]
 	hint_message = hint_messages[random.randint(0, len(hint_messages)-1)]
@@ -95,17 +91,9 @@ def bot_getRasp(m):
 def bot_setRasp(m):
 	global mongo
 
-	if (m[0] != 4):
-		return
+	a = mongo.update_one({"bot_rasp": m[3]}, {"$set": {"bot_rasp": m[3], "message_id": m[1]}}, True)
 
-	try:
-		mongo.find_one({"bot_rasp": m[3]})
-
-		mongo.update_one({"bot_rasp": m[3]}, {"$set": {"message_id": m[1]}})
-	except TypeError:
-		mongo.insert_one({"bot_rasp": m[3], "message_id": m[1]})
-
-	return "setRasp"
+	return a
 
 def bot_help(m):
 	global bot, bc
