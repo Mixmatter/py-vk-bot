@@ -28,7 +28,13 @@ def main():
 			if (m[0] != 4):
 				continue
 
-			if (m[7]['from'] == VK_BOT_ID or m[7]['from'] == str(VK_BOT_ID) or m[3] == VK_BOT_ID):
+			try:
+				if (m[7]['from'] == VK_BOT_ID or m[7]['from'] == str(VK_BOT_ID)):
+					continue
+			except KeyError:
+				pass
+
+			if (m[3] == VK_BOT_ID):
 				continue
 
 			try:
@@ -37,9 +43,8 @@ def main():
 					for commandName in command[0]:
 						if (commandName in message_trimmed):
 							print(command[1](m))
-							break
-							raise IndexError
-			except IndexError:
+							raise ZeroDivisionError
+			except ZeroDivisionError:
 				pass
 
 		r = connectToPollVK(pollServerInfo)
@@ -85,7 +90,7 @@ def bot_getRasp(m):
 	else:
 		bot.messages.send(user_id = m[3], forward_messages = message_id, message = hint_message)
 
-	return
+	return "getRasp"
 
 def bot_setRasp(m):
 	global mongo
@@ -100,7 +105,7 @@ def bot_setRasp(m):
 	except TypeError:
 		mongo.insert_one({"bot_rasp": m[3], "message_id": m[1]})
 
-	return
+	return "setRasp"
 
 def bot_help(m):
 	global bot, bc
