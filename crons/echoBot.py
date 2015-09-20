@@ -104,7 +104,7 @@ def bot_getRasp(m):
 def bot_setRasp(m):
 	global mongo
 
-	a = mongo.update_one({"bot_rasp": m[3]}, {"$set": {"bot_rasp": m[3], "message_id": m[1]}}, True)
+	mongo.update_one({"bot_rasp": m[3]}, {"$set": {"bot_rasp": m[3], "message_id": m[1]}}, True)
 
 	return
 
@@ -124,6 +124,8 @@ def bot_help(m):
 	for s in trimm_syms:
 		tmp += " " + s[0] + " (" + s[1] + ")"
 
+	tmp += "\nРазделителем команд является символ " + splitter
+
 	vk_send_message(m, message = tmp)
 	return
 
@@ -135,6 +137,25 @@ def bot_isLive(m):
 def bot_say(m):
 	global bot
 	vk_send_message(m, message = trimm(m[6])[1])
+	return
+
+def bot_getMsg(m):
+	global mongo, bot
+
+	try:
+		message = mongo.find_one({"bot_msg_id": trimm(m[6])[1]})['msg']
+	except TypeError:
+		message = randomHint(["Запись не найдена", "Не найдено", "Запись не существует в БД"])
+
+	vk_send_message(m, message = message)
+	return
+
+def bot_setMsg(m):
+	global mongo
+	if (trimm(m[6])[2] != ""):
+		mongo.update_one({"bot_msg_id": trimm(m[6])[1]}, {"$set": {"bot_msg_id": trimm(m[6])[1], "msg": trimm(m[6])[2]}}, True)
+	else:
+		mongo.remove_one({"bot_msg_id": trimm(m[6])[1]})
 	return
 
 
@@ -150,6 +171,8 @@ def declareBotCommands():
 	declareOneBotCommand(["#Расписание", "Оо, вот расписание"], bot_setRasp, "Запоминание расписания для дальнейшего вывода")
 	declareOneBotCommand(["Оо, ты жив?", "Оо, живой", "Оо, статус"], bot_isLive, "Показывает статус бота")
 	declareOneBotCommand(["Оо, скажи", "Оо, произнеси", "Oo, say"], bot_say, "Сказать фразу, [0: фраза]")
+	declareOneBotCommand(["Оо, вспомни", "Оо, выведи из БД"], bot_getMsg, "Получение определенной записи из БД, [0: ID записи]")
+	declareOneBotCommand(["Оо, запомни", "Оо, введи в БД"], bot_setMsg, "Запись определенной записи в БД, [0: ID записи, 1: Значение записи]")
 	return
 
 
@@ -169,7 +192,7 @@ trimm_syms = [[".", "точка"],
 			[" ", "пробел"],
 			["?", "знак вопроса"]]
 
-splitter = "!!"
+splitter = "|"
 
 def trimm(tr):
 	"""Исключение недопустимых символов"""
