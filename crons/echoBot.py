@@ -22,7 +22,6 @@ def main():
 	
 	while (r != None):
 		pollServerInfo['ts'] = r.json()['ts']
-		print(r.json())
 
 		for m in r.json()['updates']:
 			if (m[0] != 4):
@@ -42,7 +41,7 @@ def main():
 				for command in bc:
 					for commandName in command[0]:
 						if (commandName in message_trimmed):
-							print(command[1](m))
+							command[1](m)
 							raise ZeroDivisionError
 			except ZeroDivisionError:
 				print("Exited in command-run")
