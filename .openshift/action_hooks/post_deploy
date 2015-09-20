@@ -2,5 +2,5 @@
 
 kill $(ps -e | grep "python" | grep -E " [0-9]+ " -o | grep -E "[0-9]+" -o)
 
-python ${OPENSHIFT_REPO_DIR}"crons/echoBot.py" > "log_echoBot" &
+python ${OPENSHIFT_REPO_DIR}"crons/echoBot.py" > ${OPENSHIFT_REPO_DIR}"log_echoBot" &
 	# Start VK bot
