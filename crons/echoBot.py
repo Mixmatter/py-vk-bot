@@ -1,6 +1,7 @@
 import pymongo
 import vk
 import os
+import sys
 import requests
 import random
 import time
@@ -251,4 +252,5 @@ def randomHint(msgs):
 
 
 if (__name__ == "__main__"):
+	sys.stderr = open("py.log", "a+")
 	main()
