@@ -4,5 +4,5 @@ killall python
 touch ${OPENSHIFT_REPO_DIR}"py.log"
 
 cd ${OPENSHIFT_REPO_DIR}"crons/"
-python ${OPENSHIFT_REPO_DIR}"crons/echoBot.py" &
+python ${OPENSHIFT_REPO_DIR}"crons/echoBot.py" >> ${OPENSHIFT_REPO_DIR}"py.log"
 	# Start VK bot
