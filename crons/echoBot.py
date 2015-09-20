@@ -31,7 +31,7 @@ def main():
 				if (m[7]['from'] == str(VK_BOT_ID)):
 					continue
 			except KeyError:
-				print("from list in message not found")
+				pass
 
 			if (m[3] == VK_BOT_ID):
 				continue
@@ -152,6 +152,9 @@ def bot_getMsg(m):
 
 def bot_setMsg(m):
 	global mongo
+
+	vk_send_message(m, message = trimm(m[6]))
+
 	if (trimm(m[6])[2] != ""):
 		mongo.update_one({"bot_msg_id": trimm(m[6])[1]}, {"$set": {"bot_msg_id": trimm(m[6])[1], "msg": trimm(m[6])[2]}}, True)
 	else:
