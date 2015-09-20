@@ -105,10 +105,9 @@ def bot_setRasp(m):
 	return
 
 def bot_help(m):
-	global bot, bc
+	global bot, bc, trimm_syms
 
-	tmp = "-- Оо Оо --"
-	tmp += "\n---------\n"
+	tmp = "\n---------\n"
 
 	for c in bc:
 		tmp += c[2] + "\n"
@@ -116,8 +115,10 @@ def bot_help(m):
 		for h in c[3]:
 			tmp += " '" + h + "'"
 		tmp += "\n---------\n"
-	tmp += "\n Бот при парсинге удаляет символы: . (точка), , (запятая) и  (пробел)"
-	tmp += "\n-- Oo Oo --"
+
+	tmp += "Бот при парсинге удаляет символы: "
+	for s in trimm_syms:
+		tmp += " " + s[0] + " (" + s[1] + ")"
 
 	vk_send_message(m, message = tmp)
 	return
