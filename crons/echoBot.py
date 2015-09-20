@@ -138,9 +138,14 @@ def bot_say(m):
 	vk_send_message(m, message = trimm(m[6])[1])
 	return
 
-def bot_oneSay(m, msg):
+def bot_saySmile(m):
 	global bot
-	vk_send_message(m, message = msg)
+	vk_send_message(m, message = "&#9995;")
+	return
+
+def bot_saySmile2(m):
+	global bot
+	vk_send_message(m, message = "&#128591;")
 	return
 
 def bot_getMsg(m):
@@ -179,7 +184,9 @@ def declareBotCommands():
 	declareOneBotCommand(["Оо, ты жив?", "Оо, живой", "Оо, статус"], bot_isLive, "Показывает статус бота")
 	declareOneBotCommand(["Оо, скажи", "Оо, произнеси", "Oo, say"], bot_say, "Сказать фразу, [0: фраза]")
 
-	declareOneBotCommand(["Оо, дай пять", "Оо, пять", "Оо, дай пятюню"], bot_oneSay("✋"), "Дать пять смайликом")
+	declareOneBotCommand(["Оо, дай пять", "Оо, пять", "Оо, дай пятюню"], bot_saySmile, "Дать пять смайликом")
+	declareOneBotCommand(["Оо, помолись", "Оо, молитва"], bot_saySmile2, "Бот помолится")
+
 	#declareOneBotCommand(["Оо, вспомни", "Оо, выведи из БД"], bot_getMsg, "Получение определенной записи из БД, [0: ID записи]")
 	#declareOneBotCommand(["Оо, запомни", "Оо, введи в БД"], bot_setMsg, "Запись определенной записи в БД, [0: ID записи, 1: Значение записи]")
 	return
