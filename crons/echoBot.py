@@ -20,7 +20,6 @@ def main():
 	r = connectToPollVK(pollServerInfo)
 	
 	while (r != None):
-		print(r.json())
 		pollServerInfo['ts'] = r.json()['ts']
 
 		for m in r.json()['updates']:
