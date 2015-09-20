@@ -37,7 +37,7 @@ def main():
 				continue
 
 			try:
-				message_trimmed = trimm(m[6])
+				message_trimmed = trimm(m[6])[0]
 				for command in bc:
 					for commandName in command[0]:
 						if (commandName in message_trimmed):
@@ -128,6 +128,11 @@ def bot_isLive(m):
 	vk_send_message(m, message = randomHint(["Живой", "Жив и цел", "Норм", "Статус: работаю"]))
 	return
 
+def bot_say(m):
+	global bot
+	vk_send_message(m, message = trimm(m[6])[1])
+	return
+
 
 # Bot-Commands-Gen
 bc = []
@@ -140,6 +145,7 @@ def declareBotCommands():
 	declareOneBotCommand(["Оо, кинь расписание", "Оо, расписание", "оо расп"], bot_getRasp, "Вывод расписания, запомненого ранее")
 	declareOneBotCommand(["#Расписание", "Оо, вот расписание"], bot_setRasp, "Запоминание расписания для дальнейшего вывода")
 	declareOneBotCommand(["Оо, ты жив?", "Оо, живой", "Оо, статус"], bot_isLive, "Показывает статус бота")
+	declareOneBotCommand(["Оо, скажи", "Оо, произнеси", "Oo, say"], bot_say, "Сказать фразу, [0: фраза]")
 	return
 
 
@@ -159,10 +165,15 @@ trimm_syms = [[".", "точка"],
 			[" ", "пробел"],
 			["?", "знак вопроса"]]
 
+splitter = "!!"
+
 def trimm(tr):
 	"""Исключение недопустимых символов"""
 
 	if (type(tr) == str):
+		if (splitter in tr):
+			return [trimm(tr.split(splitter)[0])] + tr.split(splitter)[1:]
+
 		tmp = tr
 
 		for t in trimm_syms:
