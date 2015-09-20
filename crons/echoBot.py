@@ -46,7 +46,7 @@ def main():
 						if (commandName in message_trimmed):
 							try:
 								command[1](m)
-							except Exception as E:
+							except vk.api.VkAPIMethodError as E:
 								print(E)
 
 							raise ZeroDivisionError
