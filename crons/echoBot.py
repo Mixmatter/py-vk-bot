@@ -54,7 +54,7 @@ def main():
 						if (commandName in message_trimmed):
 							try:
 								command[1](m)
-							except vk.api.VkAPIMethodError as E:
+							except Exception as E:
 								print(E)
 								pollServerInfo = bot.messages.getLongPollServer()
 
