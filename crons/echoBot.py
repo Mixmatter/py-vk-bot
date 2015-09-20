@@ -44,7 +44,11 @@ def main():
 				for command in bc:
 					for commandName in command[0]:
 						if (commandName in message_trimmed):
-							command[1](m)
+							try:
+								command[1](m)
+							except Exception as E:
+								print(E)
+
 							raise ZeroDivisionError
 			except ZeroDivisionError:
 				print("Exited in command-run")
