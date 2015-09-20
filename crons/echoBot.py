@@ -5,6 +5,8 @@ import sys
 import requests
 import random
 import time
+import traceback
+
 
 global mongo, bot, bc
 VK_CHAT_K = 2000000000
@@ -19,9 +21,10 @@ def main():
 	declareBotCommands()
 	
 	pollServerInfo = bot.messages.getLongPollServer()
-	r = connectToPollVK(pollServerInfo)
 	
 	while (True):
+		r = connectToPollVK(pollServerInfo)
+
 		try:
 			if (r.json()['failed'] != None):
 				pollServerInfo = bot.messages.getLongPollServer()
@@ -56,14 +59,12 @@ def main():
 							try:
 								command[1](m)
 							except Exception as E:
-								print(E)
+								traceback.print_exc(file = open("py.log","a+"))
 								pollServerInfo = bot.messages.getLongPollServer()
 
 							raise ZeroDivisionError
 			except ZeroDivisionError:
 				print("Exited in command-run")
-
-		r = connectToPollVK(pollServerInfo)
 	return
 
 # MongoDB
@@ -252,5 +253,4 @@ def randomHint(msgs):
 
 
 if (__name__ == "__main__"):
-	sys.stderr = open("py.log", "a+")
 	main()
