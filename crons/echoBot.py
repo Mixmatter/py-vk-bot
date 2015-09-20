@@ -37,7 +37,11 @@ def main():
 				continue
 
 			try:
-				message_trimmed = trimm(m[6])[0]
+				message_trimmed = trimm(m[6])
+				
+				if (type(message_trimmed) is list):
+					message_trimmed = message_trimmed[0]
+
 				for command in bc:
 					for commandName in command[0]:
 						if (commandName in message_trimmed):
