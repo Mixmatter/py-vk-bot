@@ -3,6 +3,7 @@ import vk
 import os
 import requests
 import random
+import time
 
 global mongo, bot, bc
 VK_CHAT_K = 2000000000
@@ -19,7 +20,14 @@ def main():
 	pollServerInfo = bot.messages.getLongPollServer()
 	r = connectToPollVK(pollServerInfo)
 	
-	while (r != None):
+	while (True):
+		try:
+			if (r.json()['failed'] != None):
+				pollServerInfo = bot.messages.getLongPollServer()
+				continue
+		except KeyError:
+			pass
+
 		pollServerInfo['ts'] = r.json()['ts']
 
 		for m in r.json()['updates']:
@@ -48,6 +56,7 @@ def main():
 								command[1](m)
 							except vk.api.VkAPIMethodError as E:
 								print(E)
+								pollServerInfo = bot.messages.getLongPollServer()
 
 							raise ZeroDivisionError
 			except ZeroDivisionError:
