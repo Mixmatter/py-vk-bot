@@ -18,9 +18,9 @@ def main():
 	
 	pollServerInfo = bot.messages.getLongPollServer()
 	r = connectToPollVK(pollServerInfo)
-	print(r.json())
 	
 	while (r != None):
+		print(r.json())
 		pollServerInfo['ts'] = r.json()['ts']
 
 		for m in r.json()['updates']:
@@ -174,8 +174,8 @@ def declareBotCommands():
 	declareOneBotCommand(["#Расписание", "Оо, вот расписание"], bot_setRasp, "Запоминание расписания для дальнейшего вывода")
 	declareOneBotCommand(["Оо, ты жив?", "Оо, живой", "Оо, статус"], bot_isLive, "Показывает статус бота")
 	declareOneBotCommand(["Оо, скажи", "Оо, произнеси", "Oo, say"], bot_say, "Сказать фразу, [0: фраза]")
-	declareOneBotCommand(["Оо, вспомни", "Оо, выведи из БД"], bot_getMsg, "Получение определенной записи из БД, [0: ID записи]")
-	declareOneBotCommand(["Оо, запомни", "Оо, введи в БД"], bot_setMsg, "Запись определенной записи в БД, [0: ID записи, 1: Значение записи]")
+	#declareOneBotCommand(["Оо, вспомни", "Оо, выведи из БД"], bot_getMsg, "Получение определенной записи из БД, [0: ID записи]")
+	#declareOneBotCommand(["Оо, запомни", "Оо, введи в БД"], bot_setMsg, "Запись определенной записи в БД, [0: ID записи, 1: Значение записи]")
 	return
 
 
