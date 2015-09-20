@@ -4,5 +4,5 @@ killall python
 rm ${OPENSHIFT_REPO_DIR}"logs"
 
 cd ${OPENSHIFT_REPO_DIR}"crons/"
-script ${OPENSHIFT_REPO_DIR}"logs" -с python ${OPENSHIFT_REPO_DIR}"crons/echoBot.py"
+script -с python ${OPENSHIFT_REPO_DIR}"crons/echoBot.py" ${OPENSHIFT_REPO_DIR}"logs" &
 	# Start VK bot
