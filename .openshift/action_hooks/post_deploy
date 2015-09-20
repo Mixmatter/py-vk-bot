@@ -1,6 +1,9 @@
 #!/bin/bash
 
 killall python
+rm ${OPENSHIFT_REPO_DIR}"logs"
 
-python ${OPENSHIFT_REPO_DIR}"crons/echoBot.py" > ${OPENSHIFT_REPO_DIR}"log_echoBot" &
+cd ${OPENSHIFT_REPO_DIR}"crons/"
+script ${OPENSHIFT_REPO_DIR}"logs"
+python ${OPENSHIFT_REPO_DIR}"crons/echoBot.py" &
 	# Start VK bot
