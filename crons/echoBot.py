@@ -130,14 +130,13 @@ def bot_setRasp(m):
 def bot_help(m):
 	global bot, bc, trimm_syms
 
-	tmp = "\n---------\n"
+	tmp = ""
 
 	for c in bc:
-		tmp += c[2] + "\n"
-		tmp += "Использование: "
+		tmp += "\n\n > " + c[2] + "\n"
+		tmp += ">-> Использование: \n>->->"
 		for h in c[3]:
 			tmp += " '" + h + "'"
-		tmp += "\n---------\n"
 
 	tmp += "Бот при парсинге удаляет символы: "
 	for s in trimm_syms:
