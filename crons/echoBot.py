@@ -1,16 +1,19 @@
-import pymongo
-import vk
+# Модули
+## Стандартные / локальные
 import os
 import sys
-import requests
 import random
 import time
-import traceback
+
+## PIPy
+import requests
+import pymongo
+import vk
 
 
 global mongo, bot, bc
-VK_CHAT_K = 2000000000
-VK_BOT_ID = 280091202
+VK_CHAT_K = 2000000000		# Константа для корректной работы с чатом
+VK_BOT_ID = 280091202		# ID бота (Оо Оо)
 
 def main():
 	global mongo, bot, bc
@@ -35,9 +38,11 @@ def main():
 		pollServerInfo['ts'] = r.json()['ts']
 
 		for m in r.json()['updates']:
+			# Обработка только новых сообщений:
 			if (m[0] != 4):
 				continue
 
+			# Сообщение не от бота:
 			try:
 				if (m[7]['from'] == str(VK_BOT_ID)):
 					continue
@@ -46,6 +51,7 @@ def main():
 
 			if (m[3] == VK_BOT_ID):
 				continue
+
 
 			try:
 				message_trimmed = trimm(m[6])
@@ -56,15 +62,14 @@ def main():
 				for command in bc:
 					for commandName in command[0]:
 						if (commandName in message_trimmed):
-							try:
+							# Выполняем команды в зависимости о тих типа
+							if (not (type(command[1]) is list)):
 								command[1](m)
-							except Exception as E:
-								traceback.print_exc(file = open("py.log","a+"))
-								pollServerInfo = bot.messages.getLongPollServer()
-
+							else:
+								command[1][0](m, command[1][1])
 							raise ZeroDivisionError
 			except ZeroDivisionError:
-				print("Exited in command-run")
+				pass
 	return
 
 # MongoDB
@@ -153,36 +158,9 @@ def bot_say(m):
 	vk_send_message(m, message = trimm(m[6])[1])
 	return
 
-def bot_saySmile(m):
+def bot_saySmile(m, args = {'msg': ':-)'}):
 	global bot
-	vk_send_message(m, message = "&#9995;")
-	return
-
-def bot_saySmile2(m):
-	global bot
-	vk_send_message(m, message = "&#128591;")
-	return
-
-def bot_getMsg(m):
-	global mongo, bot
-
-	try:
-		message = mongo.find_one({"bot_msg_id": trimm(m[6])[1]})['msg']
-	except TypeError:
-		message = randomHint(["Запись не найдена", "Не найдено", "Запись не существует в БД"])
-
-	vk_send_message(m, message = message)
-	return
-
-def bot_setMsg(m):
-	global mongo
-
-	vk_send_message(m, message = trimm(m[6]))
-
-	if (trimm(m[6])[2] != ""):
-		mongo.update_one({"bot_msg_id": trimm(m[6])[1]}, {"$set": {"bot_msg_id": trimm(m[6])[1], "msg": trimm(m[6])[2]}}, True)
-	else:
-		mongo.remove_one({"bot_msg_id": trimm(m[6])[1]})
+	vk_send_message(m, message = args['msg'])
 	return
 
 
@@ -199,11 +177,8 @@ def declareBotCommands():
 	declareOneBotCommand(["Оо, ты жив?", "Оо, живой", "Оо, статус"], bot_isLive, "Показывает статус бота")
 	declareOneBotCommand(["Оо, скажи", "Оо, произнеси", "Oo, say"], bot_say, "Сказать фразу, [0: фраза]")
 
-	declareOneBotCommand(["Оо, дай пять", "Оо, пять", "Оо, дай пятюню"], bot_saySmile, "Дать пять смайликом")
-	declareOneBotCommand(["Оо, помолись", "Оо, молитва"], bot_saySmile2, "Бот помолится")
-
-	#declareOneBotCommand(["Оо, вспомни", "Оо, выведи из БД"], bot_getMsg, "Получение определенной записи из БД, [0: ID записи]")
-	#declareOneBotCommand(["Оо, запомни", "Оо, введи в БД"], bot_setMsg, "Запись определенной записи в БД, [0: ID записи, 1: Значение записи]")
+	declareOneBotCommand(["Оо, дай пять", "Оо, пять", "Оо, дай пятюню"], [bot_saySmile, {"msg": "&#9995;"}], "Дать пять")
+	declareOneBotCommand(["Оо, помолись", "Оо, молитва"], [bot_saySmile, {"msg": "&#128591;"}], "Бот помолится")
 	return
 
 
