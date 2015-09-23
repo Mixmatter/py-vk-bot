@@ -27,10 +27,15 @@ def main():
 	
 	while (True):
 		r = connectToPollVK(pollServerInfo)
-		print(r.json())
 
 		try:
-			if (r.json()['failed'] != None):
+			r.json()
+		except ValueError:
+			pollServerInfo = bot.messages.getLongPollServer()
+			continue
+
+		try:
+			if (r.json()['failed'] is None):
 				pollServerInfo = bot.messages.getLongPollServer()
 				continue
 		except (KeyError, ValueError):
