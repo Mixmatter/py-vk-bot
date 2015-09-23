@@ -171,12 +171,12 @@ def declareBotCommands():
 
 	# [лист текстов, на которые нужно реагировать], функция, текст помощи
 	declareOneBotCommand(["Оо, помощь", "Оо, справка", "Оо, выведи помощь"], bot_help, "Вывод этой помощи")
-	declareOneBotCommand(["Оо, кинь расписание", "Оо, расписание", "оо расп"], bot_getRasp, "Вывод расписания, запомненого ранее")
+	declareOneBotCommand(["Оо, кинь расписание", "Оо, расп"], bot_getRasp, "Вывод расписания, запомненого ранее")
 	declareOneBotCommand(["#Расписание", "Оо, вот расписание"], bot_setRasp, "Запоминание расписания для дальнейшего вывода")
-	declareOneBotCommand(["Оо, ты жив?", "Оо, живой", "Оо, статус"], bot_isLive, "Показывает статус бота")
+	declareOneBotCommand(["Оо, ты жив?", "Оо, жив", "Оо, статус"], bot_isLive, "Показывает статус бота")
 	declareOneBotCommand(["Оо, скажи", "Оо, произнеси", "Oo, say"], bot_say, "Сказать фразу, [0: фраза]")
 
-	declareOneBotCommand(["Оо, дай пять", "Оо, пять", "Оо, дай пятюню"], [bot_saySmile, {"msg": "&#9995;"}], "Дать пять")
+	declareOneBotCommand(["Оо, дай пят", "Оо, пять"], [bot_saySmile, {"msg": "&#9995;"}], "Дать пять")
 	declareOneBotCommand(["Оо, помолись", "Оо, молитва"], [bot_saySmile, {"msg": "&#128591;"}], "Бот помолится")
 	return
 
@@ -195,7 +195,8 @@ def declareOneBotCommand(names, callback, helpTip):
 trimm_syms = [[".", "точка"],
 			[",", "запятая"],
 			[" ", "пробел"],
-			["?", "знак вопроса"]]
+			["?", "знак вопроса"],
+			["-", "минус"]]
 
 splitter = "|"
 
