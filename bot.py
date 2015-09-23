@@ -31,6 +31,7 @@ def main():
 		try:
 			r.json()
 		except ValueError:
+			time.sleep(1)
 			pollServerInfo = bot.messages.getLongPollServer()
 			continue
 
@@ -100,7 +101,7 @@ def connectToVK():
 def connectToPollVK(vals):
 	"""Подключение к Poll серверу ВК"""
 
-	return requests.get("http://"+vals['server']+"?act=a_check&key="+vals['key']+"&ts="+str(vals['ts'])+"&wait=10&mode=2")
+	return requests.get("http://"+vals['server']+"?act=a_check&key="+vals['key']+"&ts="+str(vals['ts'])+"&wait=25&mode=2")
 
 def vk_send_message(m, **arg):
 	"""Оберта для отправки ВК сообщений"""
