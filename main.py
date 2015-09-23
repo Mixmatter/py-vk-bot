@@ -76,7 +76,8 @@ def main():
 def connectToMongoDB(dbName, collectionName):
 	"""Подключение к MongoDB"""
 
-	mongo_uri = os.environ['OPENSHIFT_MONGODB_DB_URL']
+	#mongo_uri = os.environ['MONGODB_DB_URL']
+	mongo_uri = "mongodb://127.0.0.1:27017"
 	mongo_client = pymongo.MongoClient(mongo_uri)
 	db = mongo_client[dbName]
 	mcoll = db[collectionName]
