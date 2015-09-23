@@ -32,7 +32,7 @@ def main():
 			if (r.json()['failed'] != None):
 				pollServerInfo = bot.messages.getLongPollServer()
 				continue
-		except KeyError:
+		except (KeyError, ValueError):
 			pass
 
 		pollServerInfo['ts'] = r.json()['ts']
