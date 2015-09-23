@@ -46,7 +46,7 @@ def main():
 			try:
 				if (m[7]['from'] == str(VK_BOT_ID)):
 					continue
-			except KeyError:
+			except (KeyError, ValueError):
 				pass
 
 			if (m[3] == VK_BOT_ID):
