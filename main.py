@@ -27,6 +27,7 @@ def main():
 	
 	while (True):
 		r = connectToPollVK(pollServerInfo)
+		print(r.json())
 
 		try:
 			if (r.json()['failed'] != None):
