@@ -42,7 +42,10 @@ def main():
 		except (KeyError, ValueError):
 			pass
 
-		pollServerInfo['ts'] = r.json()['ts']
+		try:
+			pollServerInfo['ts'] = r.json()['ts']
+		except (KeyError, ValueError):
+			print(r.text)
 
 		for m in r.json()['updates']:
 			# Обработка только новых сообщений:
@@ -103,7 +106,6 @@ def connectToPollVK(vals):
 
 	r = requests.request("GET",
 		"http://"+vals['server']+"?act=a_check&key="+vals['key']+"&ts="+str(vals['ts'])+"&wait=20&mode=2",
-		timeout = 30)
 	return r
 
 def vk_send_message(m, **arg):
@@ -111,12 +113,16 @@ def vk_send_message(m, **arg):
 
 	global bot
 
-	chat_id = m[3] - VK_CHAT_K
-	if (chat_id > 0):
-		bot.messages.send(chat_id = chat_id, **arg)
-	else:
-		bot.messages.send(user_id = m[3], **arg)
-	return
+	try:
+		chat_id = m[3] - VK_CHAT_K
+		if (chat_id > 0):
+			bot.messages.send(chat_id = chat_id, **arg)
+		else:
+			bot.messages.send(user_id = m[3], **arg)
+		return
+
+	except vk.exceptions.VkError as e:
+		print(e)
 
 
 # Bot-Commands-Funs
