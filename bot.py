@@ -106,6 +106,7 @@ def connectToPollVK(vals):
 
 	r = requests.request("GET",
 		"http://"+vals['server']+"?act=a_check&key="+vals['key']+"&ts="+str(vals['ts'])+"&wait=20&mode=2",
+		timeout = 30)
 	return r
 
 def vk_send_message(m, **arg):
