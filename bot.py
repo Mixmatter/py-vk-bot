@@ -4,6 +4,7 @@ import os
 import sys
 import random
 import time
+import multiprocessing
 
 ## PIPy
 import requests
@@ -11,7 +12,6 @@ import pymongo
 import vk
 
 
-global mongo, bot, bc
 VK_CHAT_K = 2000000000		# Константа для корректной работы с чатом
 VK_BOT_ID = 280091202		# ID бота (Оо Оо)
 
@@ -20,6 +20,9 @@ def main():
 
 	mongo = connectToMongoDB("python", "bot_oo")
 	bot = connectToVK()
+
+	p = multiprocessing.Process(target = bot_setOnline)
+	p.start()
 	
 	declareBotCommands()
 	
@@ -157,7 +160,7 @@ def bot_help(m):
 		for h in c[3]:
 			tmp += " '" + h + "'"
 
-	tmp += "\nБот при парсинге удаляет символы: "
+	tmp += "\n\nБот при парсинге удаляет символы: "
 	for s in trimm_syms:
 		tmp += " " + s[0] + " (" + s[1] + ")"
 
@@ -195,6 +198,13 @@ def bot_ping(m):
 	ping_str = str(ping) + " мс."
 
 	vk_send_message(m, message = ping_str)
+	return
+
+def bot_setOnline():
+	global bot
+	while(True):
+		bot.account.setOnline()
+		time.sleep(10 * 60)
 	return
 
 
