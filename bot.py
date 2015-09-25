@@ -36,7 +36,7 @@ def main():
 			continue
 
 		try:
-			if (r.json()['failed'] is None):
+			if (not (r.json()['failed'] is None)):
 				pollServerInfo = bot.messages.getLongPollServer()
 				continue
 		except (KeyError, ValueError):
@@ -105,8 +105,8 @@ def connectToPollVK(vals):
 	"""Подключение к Poll серверу ВК"""
 
 	r = requests.request("GET",
-		"http://"+vals['server']+"?act=a_check&key="+vals['key']+"&ts="+str(vals['ts'])+"&wait=20&mode=2",
-		timeout = 30)
+		"http://"+vals['server']+"?act=a_check&key="+vals['key']+"&ts="+str(vals['ts'])+"&wait=3&mode=2",
+		timeout = 8)
 	return r
 
 def vk_send_message(m, **arg):
@@ -156,7 +156,7 @@ def bot_help(m):
 		for h in c[3]:
 			tmp += " '" + h + "'"
 
-	tmp += "Бот при парсинге удаляет символы: "
+	tmp += "\nБот при парсинге удаляет символы: "
 	for s in trimm_syms:
 		tmp += " " + s[0] + " (" + s[1] + ")"
 
