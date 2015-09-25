@@ -27,6 +27,7 @@ def main():
 	
 	while (True):
 		r = connectToPollVK(pollServerInfo)
+		print(r.text)
 
 		try:
 			r.json()
@@ -146,7 +147,7 @@ def bot_setRasp(m):
 	return
 
 def bot_help(m):
-	global bot, bc, trimm_syms
+	global bc, trimm_syms
 
 	tmp = ""
 
@@ -166,18 +167,34 @@ def bot_help(m):
 	return
 
 def bot_isLive(m):
-	global bot
 	vk_send_message(m, message = randomHint(["Живой", "Жив и цел", "Норм", "Статус: работаю"]))
 	return
 
 def bot_say(m):
-	global bot
 	vk_send_message(m, message = trimm(m[6])[1])
 	return
 
 def bot_saySmile(m, args = {'msg': ':-)'}):
-	global bot
 	vk_send_message(m, message = args['msg'])
+	return
+
+def bot_ping(m):
+	COUNT_PINGS = 5
+	a = []		# Время до пинга
+	b = []		# Время после пинга
+	for c in range(COUNT_PINGS):
+		a.append(time.time())
+		r = requests.get("http://vk.com")
+		b.append(time.time())
+	
+	summ = 0
+	for c in range(len(a)):
+		summ += b[c] - a[c]
+
+	ping = round(summ / len(a) * 1000)
+	ping_str = str(ping) + " мс."
+
+	vk_send_message(m, message = ping_str)
 	return
 
 
@@ -196,6 +213,8 @@ def declareBotCommands():
 
 	declareOneBotCommand(["Оо, дай пят", "Оо, пять"], [bot_saySmile, {"msg": "&#9995;"}], "Дать пять")
 	declareOneBotCommand(["Оо, помолись", "Оо, молитва"], [bot_saySmile, {"msg": "&#128591;"}], "Бот помолится")
+
+	declareOneBotCommand(["Оо, пинг", "Оо, какой пинг"], bot_ping, "Вывод пинга от VPS до сервера ВК")
 	return
 
 
